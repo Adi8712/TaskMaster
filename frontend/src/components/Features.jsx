@@ -59,8 +59,8 @@ function Features() {
         gap={{ base: "none", md: "2rem" }}
         justifyContent={"space-evenly"}
       >
-        {features.map((feature) => (
-          <Card title={feature.title} description={feature.description} />
+        {features.map((feature, index) => (
+          <Card key={index} title={feature.title} description={feature.description} />
         ))}
       </Flex>
     </Box>

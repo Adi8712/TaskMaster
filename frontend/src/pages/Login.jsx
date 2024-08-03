@@ -11,11 +11,65 @@ import {
   Text,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import supabase from "../utils/Supabase";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const [showPassword, setShowPassword] = useState(false);
+    const [ showPassword, setShowPassword ] = useState(false);
+    const [ userData, setUserData ] = useState({ email: "", password: "" })
+    const toast = useToast() 
+    const navigate = useNavigate()
+
+
+    function onChange(e) {
+      const { name, value } = e.target
+      setUserData(prev => ({
+        ...prev,
+        [name]: value
+      }))
+    }
+
+
+    function handleSubmit(e) {
+      e.preventDefault()
+      handleLogin()
+    }
+
+    async function handleLogin () {
+      const { email, password } = userData
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        })
+
+        if (error) {
+          throw error
+        }
+        
+        sessionStorage.setItem("token", JSON.stringify(data["session"]["access_token"]))
+        toast({
+          status: "success",
+          title: "Login Successful",
+          isClosable: true,
+          duration: 2500
+        });
+        setTimeout(() => {
+          navigate("/dashboard")
+        }, 1000);
+      } catch (error) {
+        toast({
+          status: "error",
+          title: "Login Failed",
+          variant: "subtle",
+          isClosable: true,
+          duration: 2500
+        });
+      }
+    }
 
   return (
     <Flex minH={"100vh"} align={"center"} justify={"center"}>
@@ -27,12 +81,28 @@ function Login() {
           <Stack spacing={4}>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input
+                type="email"
+                name="email"
+                value={userData["email"]}
+                onChange={onChange}
+                _focusVisible={{
+                  borderColor: "primary.500",
+                }}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={userData["password"]}
+                  onChange={onChange}
+                  _focusVisible={{
+                    borderColor: "primary.500",
+                  }}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -53,6 +123,7 @@ function Login() {
                   bg: "accent.500",
                   color: "white",
                 }}
+                onClick={handleSubmit}
               >
                 Login
               </Button>
