@@ -41,7 +41,7 @@ function Login() {
     async function handleLogin () {
       const { email, password } = userData
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { _, error } = await supabase.auth.signInWithPassword({
           email,
           password
         })
@@ -49,8 +49,6 @@ function Login() {
         if (error) {
           throw error
         }
-        
-        sessionStorage.setItem("token", JSON.stringify(data["session"]["access_token"]))
         toast({
           status: "success",
           title: "Login Successful",

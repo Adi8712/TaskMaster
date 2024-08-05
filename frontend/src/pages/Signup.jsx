@@ -45,7 +45,7 @@ function Signup() {
     const { email, firstName, lastName, password } = userData
     
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { _, error } = await supabase.auth.signUp({
         email: email,
         password: password,
         options: {
@@ -59,8 +59,6 @@ function Signup() {
       if (error) {
         throw error
       }
-
-      sessionStorage.setItem("token", JSON.stringify(data["session"]["access_token"]))
       toast({
         status: "success",
         title: "Welcome",

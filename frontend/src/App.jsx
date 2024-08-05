@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 import Error from './pages/Error';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Protected from './components/Protected';
 
 function App() {
 
@@ -17,6 +19,9 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='*' element={<Error />} />
+          <Route element={<Protected />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Route>
         </Routes>
       </ChakraProvider>
     </>
