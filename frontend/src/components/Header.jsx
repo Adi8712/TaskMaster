@@ -13,7 +13,7 @@ function Header() {
             px={{ base: 4, md: 8 }}
             bg="accent.main"
             _hover={{
-              bg: "accent.200",
+              bg: "accent.500",
             }}
             _active={{
               bg: "accent.300",

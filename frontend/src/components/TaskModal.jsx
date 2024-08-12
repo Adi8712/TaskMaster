@@ -97,14 +97,31 @@ function TaskModal(props) {
               </FormControl>
               <FormControl>
                 <FormLabel>Have a deadline?</FormLabel>
-                <Input type='date' name='date' value={task["date"]} onChange={onChange} />
+                <Input
+                  type="date"
+                  name="date"
+                  _focusVisible={"none"}
+                  value={task["date"]}
+                  onChange={onChange}
+                />
               </FormControl>
             </VStack>
           </Box>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="secondary" mr={3} onClick={handleSubmit} isDisabled={!isComplete()}>
+          <Button
+            bg="accent.main"
+            _hover={{
+              bg: "accent.500",
+            }}
+            _active={{
+              bg: "accent.300",
+            }}
+            mr={3}
+            onClick={handleSubmit}
+            isDisabled={!isComplete()}
+          >
             Add
           </Button>
           <Button onClick={props.onClose}>Cancel</Button>
